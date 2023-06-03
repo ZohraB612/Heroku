@@ -1,7 +1,7 @@
 
 boto3==1.26.146
 botocore==1.29.146
-
+python-dotenv
 Flask==2.3.2
 flatbuffers==23.5.26
 gast==0.4.0
