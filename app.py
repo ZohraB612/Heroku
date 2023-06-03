@@ -1,32 +1,12 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, render_template
+import pickle
 import numpy as np
-import tensorflow as tf
-from PIL import Image
-
-def process_image(image_path):
-    # Open the image file
-    image = Image.open(image_path)
-
-    # Resize the image to 28x28
-    resized_image = image.resize((28, 28))
-
-    # Convert the image to grayscale<
-    grayscale_image = resized_image.convert('L') 
-
-    # new comment
-
-    # Normalize the pixel values
-    normalized_image = np.array(grayscale_image) / 255.0
-
-    # Reshape the image to match the model's input shape
-    processed_data = normalized_image.reshape(1, 28, 28)
-
-    return processed_data
 
 app = Flask(__name__)
 
 # Load the model
-model = tf.keras.models.load_model('mnist_model.h5')
+with open('model.pkl', 'rb') as file:
+    model = pickle.load(file)
 
 @app.route('/', methods=['GET'])
 def home():
@@ -34,24 +14,23 @@ def home():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    # Get the uploaded file
-    uploaded_file = request.files['file']
+    # Get the input values from the form
+    MedInc = float(request.form['MedInc'])
+    HouseAge = float(request.form['HouseAge'])
+    AveRooms = float(request.form['AveRooms'])
+    AveBedrms = float(request.form['AveBedrms'])
+    Population = float(request.form['Population'])
+    AveOccup = float(request.form['AveOccup'])
+    Latitude = float(request.form['Latitude'])
+    Longitude = float(request.form['Longitude'])
 
-    # Save the file
-    file_path = 'uploads/file.jpg'
-    uploaded_file.save(file_path)
-
-    # Process the image file
-    processed_data = process_image(file_path)
+    # Create a numpy array with the input values
+    features = np.array([[MedInc, HouseAge, AveRooms, AveBedrms, Population, AveOccup, Latitude, Longitude]])
 
     # Make the prediction
-    prediction = model.predict(processed_data)
+    predicted_price = model.predict(features)[0]
 
-    # Get the predicted class as an integer
-    predicted_class = np.argmax(prediction).item()
-
-    # Render the prediction result page with the preprocessed image URL and predicted class
-    return render_template('prediction.html', image_url=file_path, predicted_class=predicted_class)
+    return render_template('prediction.html', predicted_price=predicted_price)
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True)
