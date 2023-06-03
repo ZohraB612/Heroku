@@ -2,6 +2,21 @@ from flask import Flask, request, render_template
 import pickle
 import numpy as np
 
+import boto3
+import os
+from flask import Flask
+
+AWS_ACCESS_KEY = os.getenv('AWS_ACCESS_KEY')
+AWS_SECRET_KEY = os.getenv('AWS_SECRET_KEY')
+BUCKET_NAME = os.getenv('BUCKET_NAME')
+OBJECT_NAME = 'model.pkl'  # The name of the file in S3
+LOCAL_FILE_NAME = 'model.pkl'  # The local file name
+
+s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY,
+                  aws_secret_access_key=AWS_SECRET_KEY)
+
+s3.download_file(BUCKET_NAME, OBJECT_NAME, LOCAL_FILE_NAME)
+
 app = Flask(__name__)
 
 # Load the model
