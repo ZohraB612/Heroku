@@ -24,10 +24,6 @@ model = joblib.load(BytesIO(obj['Body'].read()))
 
 app = Flask(__name__)
 
-# Load the model
-with open('model.pkl', 'rb') as file:
-    model = pickle.load(file)
-
 @app.route('/', methods=['GET'])
 def home():
     return render_template('index.html')
