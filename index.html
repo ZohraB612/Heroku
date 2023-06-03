@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>California Housing Price Prediction</title>
+</head>
+
+<body>
+    <div>
+        <h1>California Housing Price Prediction</h1>
+        <p>Please fill in the features of the house.</p>
+        <form action="/predict" method="post">
+            <label for="MedInc">Median Income:</label><br>
+            <input type="text" id="MedInc" name="MedInc"><br>
+            <label for="HouseAge">House Age:</label><br>
+            <input type="text" id="HouseAge" name="HouseAge"><br>
+            <label for="AveRooms">Average Rooms:</label><br>
+            <input type="text" id="AveRooms" name="AveRooms"><br>
+            <label for="AveBedrms">Average Bedrooms:</label><br>
+            <input type="text" id="AveBedrms" name="AveBedrms"><br>
+            <label for="Population">Population:</label><br>
+            <input type="text" id="Population" name="Population"><br>
+            <label for="AveOccup">Average Occupancy:</label><br>
+            <input type="text" id="AveOccup" name="AveOccup"><br>
+            <label for="Latitude">Latitude:</label><br>
+            <input type="text" id="Latitude" name="Latitude"><br>
+            <label for="Longitude">Longitude:</label><br>
+            <input type="text" id="Longitude" name="Longitude"><br>
+            <input type="submit" value="Predict">
+        </form>
+    </div>
+</body>
+
+</html>
